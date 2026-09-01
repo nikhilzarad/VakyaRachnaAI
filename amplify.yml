@@ -15,6 +15,7 @@ frontend:
         - export NVM_DIR="$HOME/.nvm"
         - . "$NVM_DIR/nvm.sh"
         - nvm use 22.22.3
+        - test -n "$GROQ_API_KEY" || (echo "GROQ_API_KEY is missing or empty" && exit 1)
         - |
           cat > src/environments/environment.prod.ts <<EOF
           export const environment = {
