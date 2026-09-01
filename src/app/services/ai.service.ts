@@ -18,11 +18,16 @@ export class AiService {
     this.error = '';
 
     try {
+      const apiKey = environment.groqApiKey?.trim();
+      if (!apiKey) {
+        throw new Error('Groq API key is missing. Set groqApiKey in your environment file.');
+      }
+
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${environment.groqApiKey}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: 'llama-3.1-8b-instant',
@@ -111,11 +116,16 @@ export class AiService {
   }
 
   private async retrySummarizeAsSummaryOnly(prompt: string, userText: string): Promise<string | null> {
+    const apiKey = environment.groqApiKey?.trim();
+    if (!apiKey) {
+      return null;
+    }
+
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${environment.groqApiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',

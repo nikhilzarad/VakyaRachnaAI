@@ -43,7 +43,25 @@ npm run build
 
 ## Environment
 
-Set your Groq key in Angular environment files:
+For local development, copy the example file, set your key, and start the app:
 
-- src/environments/environment.ts
-- src/environments/environment.prod.ts
+```bash
+cp src/environments/environment.local.example.ts src/environments/environment.local.ts
+```
+
+`src/environments/environment.local.ts` is ignored by Git and is used by `npm start`.
+
+Example:
+
+```ts
+export const environment = {
+  production: false,
+  groqApiKey: 'gsk_...'
+};
+```
+
+### Amplify Deployment
+
+In the Amplify Console, open your app's branch settings and add an environment variable named `GROQ_API_KEY` with your Groq API key. The build specification validates this variable and generates `environment.prod.ts` only in the build environment before running the production build.
+
+The current app calls Groq directly from the browser, so the key is included in the published JavaScript bundle. Use a restricted key for this deployment. For a secret that must never reach users, move the Groq request to a server-side API or Amplify function.
