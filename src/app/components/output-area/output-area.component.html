@@ -1,0 +1,67 @@
+<div class="flex flex-col gap-4">
+  @if (loading) {
+    <h2 class="text-sm font-semibold text-foreground">Result</h2>
+    <div class="min-h-45 lg:min-h-55 rounded-lg bg-white/3 p-4 flex flex-col gap-4">
+      @for (width of [100, 85, 92, 78, 65]; track width; let i = $index) {
+        <div
+          class="h-3 rounded-full bg-white/5 animate-pulse"
+          [style.width.%]="width"
+          [style.animationDelay]="i * 100 + 'ms'"
+        ></div>
+      }
+      <p class="text-xs text-muted-foreground mt-2 animate-pulse">
+        AI is transforming your text...
+      </p>
+    </div>
+  } @else {
+    @if (error) {
+      <h2 class="text-sm font-semibold text-foreground">Result</h2>
+      <div class="min-h-45 lg:min-h-55 rounded-lg border border-destructive/50 bg-destructive/5 p-4 flex flex-col gap-3 items-start justify-center">
+        <p class="text-sm text-destructive font-medium">⚠ Something went wrong</p>
+        <p class="text-xs text-muted-foreground">{{ error }}</p>
+        <button class="text-xs mt-2 border border-current rounded px-3 py-1" type="button" (click)="clearError.emit()">
+          Try Again
+        </button>
+      </div>
+    } @else {
+      @if (outputText) {
+        <div>
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-semibold text-foreground">Result</h2>
+            <div class="flex items-center gap-1 lg:gap-2">
+              <span class="badge badge-secondary text-xs px-2 py-0.5">
+                {{ countWords(outputText) }} {{ countWords(outputText) === 1 ? 'word' : 'words' }}
+              </span>
+              <span class="badge badge-secondary text-xs px-2 py-0.5">
+                {{ countChars(outputText) }} {{ countChars(outputText) === 1 ? 'char' : 'chars' }}
+              </span>
+            </div>
+          </div>
+          <div class="min-h-45 lg:min-h-55 rounded-lg bg-white/3 border-l-2 border-primary p-4 text-sm leading-relaxed text-foreground whitespace-pre-wrap fade-in mb-4">
+            {{ outputText }}
+          </div>
+          <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-2 flex-wrap">
+              <button class="text-xs h-8 px-3 rounded bg-primary text-white" type="button" (click)="handleCopy()">
+                {{ copied ? '✓ Copied!' : 'Copy' }}
+              </button>
+              <button class="text-xs h-8 px-3 rounded border border-current" type="button" (click)="useAsInput.emit()">
+                ↑ Use as Input
+              </button>
+            </div>
+            <p class="text-xs text-muted-foreground">Not satisfied? Use as input and try another action.</p>
+          </div>
+        </div>
+      } @else {
+        <h2 class="text-sm font-semibold text-foreground">Result</h2>
+        <div class="min-h-45 lg:min-h-55 rounded-lg border border-dashed border-border p-4 flex items-center justify-center">
+          <div class="text-center flex flex-col gap-2">
+            <p class="text-sm text-muted-foreground">Your result will appear here.</p>
+            <p class="text-xs text-muted-foreground/60">Paste text → select action → click Run</p>
+          </div>
+        </div>
+      }
+    }
+  }
+
+</div>

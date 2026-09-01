@@ -1,0 +1,30 @@
+<div class="flex flex-col gap-4 p-4 rounded-[28px] border border-white/10 bg-white/5 shadow-glow-violet-sm">
+  <div class="flex flex-col gap-1">
+    <h3 class="text-sm font-semibold text-foreground">Custom Instruction</h3>
+    <p class="text-xs text-muted-foreground">Tell the AI exactly what you want to do with your text.</p>
+  </div>
+  <textarea
+    #textarea
+    [value]="customPrompt"
+    (input)="handleChange($event)"
+    placeholder="e.g. Translate this to Hindi..."
+    class="min-h-[140px] lg:min-h-[160px] resize-none text-sm w-full rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow duration-200"
+  ></textarea>
+  <div class="flex flex-col gap-3">
+    <p class="text-xs text-muted-foreground font-medium">Try these:</p>
+    <div class="flex flex-wrap gap-2">
+      @for (suggestion of suggestions; track suggestion) {
+        <button
+          type="button"
+          class="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-foreground hover:border-primary hover:bg-primary/10 hover:text-white transition-colors duration-200"
+          (click)="handleSuggestionClick(suggestion)"
+          >
+          {{ suggestion }}
+        </button>
+      }
+    </div>
+  </div>
+  <div class="flex justify-end">
+    <span class="text-xs text-muted-foreground">{{ customPrompt.length }} characters</span>
+  </div>
+</div>

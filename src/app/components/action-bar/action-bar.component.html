@@ -1,0 +1,33 @@
+<div class="flex flex-col gap-4">
+  <div class="flex flex-wrap gap-2">
+    @for (action of actions; track action) {
+      <button
+        type="button"
+        [title]="action.shortcut ? 'Shortcut: ' + action.shortcut : ''"
+      [ngClass]="{
+        'bg-primary border-primary text-white glow-violet-sm': activeAction?.id === action.id,
+        'bg-transparent border-white/10 text-muted-foreground hover:border-primary/50 hover:text-foreground hover:bg-white/5': activeAction?.id !== action.id
+      }"
+        class="text-xs px-4 py-2 rounded-full border transition-all duration-200 font-medium"
+        (click)="handleClick(action)"
+        >
+        {{ action.label }}
+      </button>
+    }
+
+    <div class="h-8 mx-1 bg-white/10 w-px"></div>
+
+    <button
+      type="button"
+      [title]="'Write your own instruction'"
+      [ngClass]="{
+        'bg-primary border-primary text-white glow-violet-sm': activeAction?.id === customAction.id,
+        'bg-transparent border-white/10 text-muted-foreground hover:border-primary/50 hover:text-foreground hover:bg-white/5': activeAction?.id !== customAction.id
+      }"
+      class="text-xs px-4 py-2 rounded-full border transition-all duration-200 font-medium"
+      (click)="selectCustom()"
+      >
+      ✎ Custom
+    </button>
+  </div>
+</div>
