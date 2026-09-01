@@ -43,15 +43,13 @@ npm run build
 
 ## Environment
 
-For local development, copy the example file, set your key, and start the app:
+For local development, add your key to `src/environments/environment.ts` (or copy the example file to `src/environments/environment.local.ts` for local overrides):
 
 ```bash
 cp src/environments/environment.local.example.ts src/environments/environment.local.ts
 ```
 
-`src/environments/environment.local.ts` is ignored by Git and is used by `npm start`.
-
-Example:
+Example `src/environments/environment.ts`:
 
 ```ts
 export const environment = {

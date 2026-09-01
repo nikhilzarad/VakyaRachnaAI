@@ -37,14 +37,12 @@
             "scripts": [],
             "browser": "src/main.ts"
           },
+          "defaultConfiguration": "production",
           "configurations": {
             "development": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
-                }
-              ]
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             },
             "production": {
               "budgets": [
