@@ -15,6 +15,13 @@ frontend:
         - export NVM_DIR="$HOME/.nvm"
         - . "$NVM_DIR/nvm.sh"
         - nvm use 22.22.3
+        - |
+          cat > src/environments/environment.prod.ts <<EOF
+          export const environment = {
+            production: true,
+            groqApiKey: "${GROQ_API_KEY}",
+          };
+          EOF
         - npm run build
   artifacts:
     baseDirectory: dist/vakyaRachna-ai-writing-assistant/browser
