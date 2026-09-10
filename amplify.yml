@@ -16,8 +16,7 @@ frontend:
         - . "$NVM_DIR/nvm.sh"
         - nvm use 22.22.3
         - test -n "$GROQ_API_KEY" || (echo "GROQ_API_KEY is missing or empty" && exit 1)
-        - export GROQ_MODEL="${GROQ_MODEL:-llama-3.3-70b-versatile}"
-        - test "$GROQ_MODEL" != "llama-3.1-8b-instant" || (echo "GROQ_MODEL is obsolete: $GROQ_MODEL" && exit 1)
+        - export GROQ_MODEL="llama-3.3-70b-versatile"
         - |
           node -e "
           const fs = require('fs');
