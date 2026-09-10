@@ -16,13 +16,23 @@ frontend:
         - . "$NVM_DIR/nvm.sh"
         - nvm use 22.22.3
         - test -n "$GROQ_API_KEY" || (echo "GROQ_API_KEY is missing or empty" && exit 1)
+        - export GROQ_MODEL="${GROQ_MODEL:-llama-3.3-70b-versatile}"
+        - test "$GROQ_MODEL" != "llama-3.1-8b-instant" || (echo "GROQ_MODEL is obsolete: $GROQ_MODEL" && exit 1)
         - |
-          cat > src/environments/environment.prod.ts <<EOF
-          export const environment = {
-            production: true,
-            groqApiKey: "${GROQ_API_KEY}",
-          };
-          EOF
+          node -e "
+          const fs = require('fs');
+          const apiKey = process.env.GROQ_API_KEY || '';
+          const model = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+          const content = 'export const environment = {\n' +
+            '  production: true,\n' +
+            '  groqApiKey: ' + JSON.stringify(apiKey) + ',\n' +
+            '  groqModel: ' + JSON.stringify(model) + ',\n' +
+            '};\n';
+          fs.writeFileSync('src/environments/environment.prod.ts', content);
+          console.log('groqApiKey embedded: ' + (apiKey.length > 0) + ' (length ' + apiKey.length + ')');
+          console.log('groqModel: ' + model);
+          "
+        - grep -q "groqApiKey: \"\"" src/environments/environment.prod.ts && (echo "Generated environment.prod.ts has an empty groqApiKey" && exit 1) || true
         - npm run build
   artifacts:
     baseDirectory: dist/vakyaRachna-ai-writing-assistant/browser
