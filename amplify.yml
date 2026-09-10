@@ -15,10 +15,11 @@ frontend:
         - export NVM_DIR="$HOME/.nvm"
         - . "$NVM_DIR/nvm.sh"
         - nvm use 22.22.3
-        - test -n "$GROQ_API_KEY" || (echo "GROQ_API_KEY is missing or empty" && exit 1)
-        - export GROQ_MODEL="llama-3.3-70b-versatile"
-        - node -e 'const fs = require("fs"); const content = `export const environment = {\n  production: true,\n  groqApiKey: ${JSON.stringify(process.env.GROQ_API_KEY)},\n  groqModel: ${JSON.stringify(process.env.GROQ_MODEL)},\n};\n`; fs.writeFileSync("src/environments/environment.prod.ts", content); console.log("Production environment generated");'
-        - grep -q "groqApiKey: \"\"" src/environments/environment.prod.ts && (echo "Generated environment.prod.ts has an empty groqApiKey" && exit 1) || true
+        - test -n "$GOOGLE_AI_API_KEY" || (echo "GOOGLE_AI_API_KEY is missing or empty" && exit 1)
+        - export GOOGLE_AI_MODEL="gemini-3.6-flash"
+        - node -e 'const fs = require("fs"); const content = `export const environment = {\n  production: true,\n  googleAiApiKey: ${JSON.stringify(process.env.GOOGLE_AI_API_KEY)},\n  googleAiModel: ${JSON.stringify(process.env.GOOGLE_AI_MODEL)},\n};\n`; fs.writeFileSync("src/environments/environment.prod.ts", content); console.log("Production environment generated");'
+        - grep -q "googleAiApiKey: \"\"" src/environments/environment.prod.ts && (echo "Generated environment.prod.ts has an empty googleAiApiKey" && exit 1) || true
+        - grep -q 'googleAiModel: "gemini-3.6-flash"' src/environments/environment.prod.ts || (echo "Generated environment.prod.ts has an unexpected Google AI model" && exit 1)
         - npm run build
   artifacts:
     baseDirectory: dist/vakyaRachna-ai-writing-assistant/browser

@@ -8,7 +8,7 @@ AI-powered writing tool built with Angular for writing assistance, refinement, a
 - TypeScript
 - Tailwind CSS + SCSS
 - Angular Material (selectively used)
-- Groq API (LLaMA 3.1)
+- Google AI Studio (Gemini)
 
 ## Features
 
@@ -43,23 +43,24 @@ npm run build
 
 ## Environment
 
-For local development, add your key to `src/environments/environment.ts` (or copy the example file to `src/environments/environment.local.ts` for local overrides):
+For local development, add your Google AI Studio key to `src/environments/environment.local.ts` (this file is ignored by Git):
 
 ```bash
 cp src/environments/environment.local.example.ts src/environments/environment.local.ts
 ```
 
-Example `src/environments/environment.ts`:
+Example:
 
 ```ts
 export const environment = {
   production: false,
-  groqApiKey: 'gsk_...'
+  googleAiApiKey: 'AIza...',
+  googleAiModel: 'gemini-3.6-flash'
 };
 ```
 
 ### Amplify Deployment
 
-In the Amplify Console, open your app's branch settings and add an environment variable named `GROQ_API_KEY` with your Groq API key. The build specification validates this variable and generates `environment.prod.ts` only in the build environment before running the production build.
+In the Amplify Console, open your app's branch settings and add an environment variable named `GOOGLE_AI_API_KEY` with your Google AI Studio API key. The build specification validates this variable and generates `environment.prod.ts` only in the build environment before running the production build. It also sets the model to `gemini-3.6-flash`.
 
-The current app calls Groq directly from the browser, so the key is included in the published JavaScript bundle. Use a restricted key for this deployment. For a secret that must never reach users, move the Groq request to a server-side API or Amplify function.
+The current app calls Google AI Studio directly from the browser, so the key is included in the published JavaScript bundle. Restrict the key by HTTP referrer and API usage in Google Cloud. For a secret that must never reach users, move the Gemini request to a server-side API or Amplify function.
